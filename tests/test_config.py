@@ -1,4 +1,5 @@
 import json
+import os
 
 from pool_aim import config
 
@@ -16,7 +17,8 @@ def test_roundtrip(tmp_path):
     config.save(cfg, p)
     out = config.load(p)
     assert out["p1"] == (1.0, 2.0) and out["toggles"] == {"lines": False} and out["last_target"] == "p1"
-    assert (p.stat().st_mode & 0o777) == 0o600 or not hasattr(p, "stat")
+    if os.name == "posix":
+        assert (p.stat().st_mode & 0o777) == 0o600
 
 
 def test_rejects_garbage(tmp_path):
@@ -60,3 +62,12 @@ def test_bad_inputs_return_empty(tmp_path):
 def test_env_override(monkeypatch, tmp_path):
     monkeypatch.setenv("POOL_AIM_CONFIG", str(tmp_path / "x.json"))
     assert config.default_config_path() == tmp_path / "x.json"
+
+
+def test_new_toggles_roundtrip(tmp_path):
+    from pool_aim import config
+
+    p = tmp_path / "c.json"
+    config.save({"toggles": {"ghost": False, "hud": True, "animate": False, "snap": True, "evil": True}}, p)
+    out = config.load(p)
+    assert out["toggles"] == {"ghost": False, "hud": True, "animate": False, "snap": True}

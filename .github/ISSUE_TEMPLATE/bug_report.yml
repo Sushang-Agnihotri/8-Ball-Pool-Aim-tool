@@ -1,0 +1,22 @@
+name: Bug report
+description: Something isn't working
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: { label: What happened?, description: What did you expect instead? }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Steps to reproduce }
+  - type: input
+    id: version
+    attributes: { label: Pool Aim version, description: "Run `pool-aim --version`" }
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows 10/11, macOS, Linux (X11), Linux (Wayland), Other]
+  - type: textarea
+    id: logs
+    attributes: { label: Console output / screenshot, render: shell }

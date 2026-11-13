@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-label="Pool Aim - a passive aiming overlay">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1226"/><stop offset="1" stop-color="#101d2e"/>
+    </linearGradient>
+    <linearGradient id="felt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#238e7e"/><stop offset="1" stop-color="#0e5450"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1280" height="320" fill="url(#bg)"/>
+  <g transform="translate(700 48)">
+    <rect x="-14" y="-14" width="548" height="252" rx="26" fill="#5c361e"/>
+    <rect x="0" y="0" width="520" height="224" rx="6" fill="url(#felt)"/>
+    <g fill="#050508"><circle cx="0" cy="0" r="15"/><circle cx="260" cy="0" r="15"/><circle cx="520" cy="0" r="15"/><circle cx="0" cy="224" r="15"/><circle cx="260" cy="224" r="15"/><circle cx="520" cy="224" r="15"/></g>
+    <g filter="url(#glow)" fill="none" stroke="#00e5ff" stroke-width="3" stroke-linecap="round">
+      <path d="M70 180 L250 112 L520 8" stroke-dasharray="1 0"/>
+      <path d="M250 112 L430 224 L520 168" opacity=".0"/>
+      <path d="M250 112 L395 56" stroke-dasharray="6 8" opacity=".9"/>
+    </g>
+    <circle cx="70" cy="180" r="12" fill="#f5f5f0"/>
+    <circle cx="250" cy="112" r="12" fill="#14141a" stroke="#fff" stroke-width="2"/>
+    <circle cx="226" cy="122" r="12" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="3 3"/>
+    <g font-family="Segoe UI, Arial, sans-serif" font-weight="700" font-size="13">
+      <rect x="268" y="82" width="42" height="22" rx="11" fill="#0f1117" stroke="#00e5ff"/>
+      <text x="289" y="98" fill="#00e5ff" text-anchor="middle">18°</text>
+    </g>
+  </g>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="64" y="132" font-size="68" font-weight="800" fill="#fff">Pool Aim</text>
+    <text x="66" y="176" font-size="24" fill="#9fb3c8">A passive, always-on-top aiming overlay</text>
+    <text x="66" y="212" font-size="24" fill="#9fb3c8">Ghost ball · cut angle · banks · themes</text>
+    <g font-size="15" font-weight="600">
+      <rect x="66" y="244" width="116" height="30" rx="15" fill="none" stroke="#00e5ff"/><text x="124" y="264" fill="#00e5ff" text-anchor="middle">PyQt5</text>
+      <rect x="194" y="244" width="150" height="30" rx="15" fill="none" stroke="#4cd964"/><text x="269" y="264" fill="#4cd964" text-anchor="middle">No screen reading</text>
+      <rect x="356" y="244" width="116" height="30" rx="15" fill="none" stroke="#ffc107"/><text x="414" y="264" fill="#ffc107" text-anchor="middle">MIT</text>
+    </g>
+  </g>
+</svg>

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pool-aim"
-version = "1.0.0"
+version = "1.1.0"
 description = "A passive on-screen aiming overlay for pool/billiards games (PyQt5)."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -14,6 +14,7 @@ dependencies = ["PyQt5>=5.15.9,<6"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.6", "bandit>=1.7", "pip-audit>=2.7"]
+assets = ["Pillow>=10"]
 
 [project.scripts]
 pool-aim = "pool_aim.app:main"
