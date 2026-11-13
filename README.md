@@ -61,6 +61,14 @@ process, makes no network connections, and runs no subprocesses.
 <sub>Screenshots are rendered over a synthetic table with `python tools/render_assets.py`, so they can be
 regenerated after any visual change.</sub>
 
+## In a real game
+
+The overlay sitting on top of a live game window (earlier version, same idea):
+
+| Aim line | Bank shot | Double bank | Settings |
+|---|---|---|---|
+| ![](docs/images/real/single-aim.png) | ![](docs/images/real/bank-shot.png) | ![](docs/images/real/double-bank.png) | ![](docs/images/real/menu.png) |
+
 ## Install
 
 Requires Python 3.9+.
