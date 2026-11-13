@@ -71,3 +71,68 @@ def bank_segments(start: Point, direction: Point, rect: Rect, max_banks: int = 2
 
 def points_finite(points: Sequence[Sequence[float]]) -> bool:
     return all(math.isfinite(v) for p in points for v in p)
+
+
+def unit(a: Point, b: Point) -> Point:
+    """Unit vector pointing from ``a`` to ``b`` (``(0, 0)`` if they coincide)."""
+    d = dist(a, b)
+    return (0.0, 0.0) if d < 1e-9 else ((b[0] - a[0]) / d, (b[1] - a[1]) / d)
+
+
+def ghost_ball(obj: Point, pocket: Point, ball_radius: float) -> Point:
+    """Where the cue ball must be at impact to send ``obj`` towards ``pocket``.
+
+    It sits exactly two ball radii behind the object ball, on the line from the pocket through the object ball.
+    """
+    ux, uy = unit(obj, pocket)
+    return (obj[0] - ux * 2 * ball_radius, obj[1] - uy * 2 * ball_radius)
+
+
+def angle_between(a: Point, b: Point) -> float:
+    """Unsigned angle in degrees (0-180) between two vectors."""
+    na, nb = math.hypot(*a), math.hypot(*b)
+    if na < 1e-9 or nb < 1e-9:
+        return 0.0
+    cos = max(-1.0, min(1.0, (a[0] * b[0] + a[1] * b[1]) / (na * nb)))
+    return math.degrees(math.acos(cos))
+
+
+def cut_angle(cue: Point, obj: Point, pocket: Point) -> float:
+    """Cut angle in degrees: 0 is a straight-in shot, 90 is an (impossible) full-thickness miss."""
+    return angle_between((obj[0] - cue[0], obj[1] - cue[1]), (pocket[0] - obj[0], pocket[1] - obj[1]))
+
+
+def best_pocket(
+    cue: Point, obj: Point, rect: Rect, ball_radius: float, max_cut: float = 80.0
+) -> tuple[int, float] | None:
+    """Pick the pocket with the easiest (smallest) cut angle for the object ball.
+
+    Returns ``(pocket_index, cut_angle_degrees)`` or ``None`` when no pocket is makeable. Pockets the object ball is
+    already sitting in, and pockets that would need the cue ball behind the ghost position, are skipped.
+    """
+    best: tuple[int, float] | None = None
+    for i, pocket in enumerate(pocket_centers(rect)):
+        if dist(obj, pocket) <= 2 * ball_radius:
+            continue
+        angle = cut_angle(cue, obj, pocket)
+        if angle > max_cut:
+            continue
+        if best is None or angle < best[1]:
+            best = (i, angle)
+    return best
+
+
+def path_length(segments: Sequence[tuple[Point, Point]]) -> float:
+    return sum(dist(a, b) for a, b in segments)
+
+
+def difficulty(angle: float, length: float, table_width: float) -> str:
+    """Rough shot difficulty label from cut angle and travel distance (relative to table width)."""
+    score = angle / 90 * 0.7 + min(length / max(table_width, 1.0), 1.5) / 1.5 * 0.3
+    if score < 0.22:
+        return "Easy"
+    if score < 0.45:
+        return "Medium"
+    if score < 0.7:
+        return "Hard"
+    return "Very hard"

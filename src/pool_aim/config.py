@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 MAX_CONFIG_BYTES = 64 * 1024
+TOGGLE_KEYS = ("lines", "single", "bank", "double_bank", "ghost", "hud", "animate", "snap")
 MAX_COORD = 20000.0  # generous upper bound for any screen coordinate
 
 
@@ -73,9 +74,7 @@ def sanitize(raw: Any) -> dict[str, Any]:
 
     toggles = raw.get("toggles")
     if isinstance(toggles, dict):
-        out["toggles"] = {
-            k: toggles[k] for k in ("lines", "single", "bank", "double_bank") if isinstance(toggles.get(k), bool)
-        }
+        out["toggles"] = {k: toggles[k] for k in TOGGLE_KEYS if isinstance(toggles.get(k), bool)}
 
     visuals = raw.get("visuals")
     if isinstance(visuals, dict):

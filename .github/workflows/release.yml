@@ -1,0 +1,19 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  windows-exe:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -e . pyinstaller
+      - run: pyinstaller --noconsole --onefile --name PoolAim --paths src aim.py
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/PoolAim.exe
+          generate_release_notes: true
